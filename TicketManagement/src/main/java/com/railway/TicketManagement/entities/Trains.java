@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -29,4 +31,11 @@ public class Trains {
     public enum Type {
         LOCAL, EXPRESS
     }
+
+    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
+
 }

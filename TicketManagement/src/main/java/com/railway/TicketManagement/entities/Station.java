@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -22,4 +24,14 @@ public class Station {
 
     @Column(name = "city")
     private String city;
+
+    @OneToMany(mappedBy = "station", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedules;
+
+    @OneToMany(mappedBy = "startStation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> startTickets;
+
+    @OneToMany(mappedBy = "endStation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> endTickets;
+
 }

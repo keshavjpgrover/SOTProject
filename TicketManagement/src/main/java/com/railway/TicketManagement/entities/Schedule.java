@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.sql.Time;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,4 +33,7 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name = "station_id")
     private Station station;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings;
 }

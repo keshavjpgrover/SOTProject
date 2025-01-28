@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -41,4 +42,10 @@ public class Booking {
     public enum Status {
         BOOKED, CANCELLED, CONFIRMED
     }
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Payment> payments;
 }
