@@ -1,12 +1,17 @@
 package com.railway.TicketManagement.controller;
 
+import com.railway.TicketManagement.dto.AddTrainDTO;
+import com.railway.TicketManagement.dto.TrainSearchDTO;
 import com.railway.TicketManagement.entities.Trains;
 import com.railway.TicketManagement.service.TrainService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,34 +29,22 @@ public class TrainController {
         return trainService.getAllTrains();
     }
 
-//    @CrossOrigin(origins = "*")
-//    @GetMapping("/search")
-//    public List<TrainDTO> viewTrainsBySrcAndDes(@RequestParam("source") String src,
-//                                                      @RequestParam("destination") String des,
-//                                                      @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateOfJourney) {
-//
-//        return trainService.getTrainsBySrcDescDate(src, des, dateOfJourney);
-//    }
-//
-//    // Admin can add trains
-//    @PostMapping("/add")
-//    // @PreAuthorize("hasRole('ADMIN')")
-//    public AddTrainDTO addTrain(@Valid @RequestBody AddTrainDTO trainDTO) {
-//        return trainService.addTrain(trainDTO);
-//    }
-//
-//    // Admin can remove trains (make them inactive)
-//    @PutMapping("/remove/{trainNumber}")
-//    // @PreAuthorize("hasRole('ADMIN')")
-//    @CrossOrigin(origins = "*")
-//    public void removeTrain(@PathVariable long trainNumber) {
-//        trainService.removeTrain(trainNumber);
-//    }
-//
-//    @PutMapping("/activate/{trainNumber}")
-//    @CrossOrigin(origins = "*")
-//    public void activateTrain(@PathVariable long trainNumber) {
-//        trainService.activateTrain(trainNumber);
-//    }
+    @GetMapping("/search")
+    public List<TrainSearchDTO> findTrains(@RequestParam("source") String src,
+                                           @RequestParam("destination") String des,
+                                           @RequestParam("date")  Date dateOfJourney) {
+
+        return trainService.getTrainsBySrcDestDate(src, des, dateOfJourney);
+    }
+    
+	@PostMapping("/addTrain")
+	public Trains addTrain(@Valid @RequestBody AddTrainDTO train) {
+		return trainService.addTrain(train);
+	}
+
+	@PutMapping("/remove/{trainNumber}")
+	public void removeTrain(@PathVariable String trainNumber) {
+		trainService.removeTrain(trainNumber);
+	}
 
 }

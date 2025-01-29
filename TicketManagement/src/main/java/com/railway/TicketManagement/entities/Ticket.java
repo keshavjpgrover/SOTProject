@@ -1,5 +1,7 @@
 package com.railway.TicketManagement.entities;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,4 +33,7 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "end_station_id")
     private Station endStation;
+
+    @Column(name = "date")
+    private Date date;
 }
