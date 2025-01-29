@@ -49,8 +49,8 @@ public class BookingServiceImpl implements BookingService {
                 .booking(savedBooking)              // Associate with saved booking
                 .date(new Date())                   // Set payment date to current date
                 .amount(bookingDTO.getTotalAmount()) // Use amount from BookingDTO
-                .paymentMethod(Payment.PaymentMethod.CARD) // Default Payment Method (can be dynamic)
-                .paymentStatus(Payment.PaymentStatus.SUCCESS) // Default Payment Status
+                .paymentMethod(Payment.PaymentMethod.Card) // Default Payment Method (can be dynamic)
+                .paymentStatus(Payment.PaymentStatus.success) // Default Payment Status
                 .build();
 
         paymentDao.save(payment);
