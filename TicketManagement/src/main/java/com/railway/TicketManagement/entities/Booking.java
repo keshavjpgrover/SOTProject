@@ -40,7 +40,7 @@ public class Booking {
     private Status status;
 
     public enum Status {
-        BOOKED, CANCELLED, CONFIRMED
+        Booked, cancelled, confirmed
     }
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL, orphanRemoval = true)

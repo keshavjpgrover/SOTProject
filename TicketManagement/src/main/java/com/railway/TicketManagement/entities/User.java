@@ -43,7 +43,7 @@ public class User {
     private List<Booking> bookings;
 
     public enum Role {
-        ADMIN, CUSTOMER
+        admin, customer
     }
 
     // can create custom method to set password with hashing

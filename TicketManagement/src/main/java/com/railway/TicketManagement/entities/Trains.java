@@ -29,7 +29,7 @@ public class Trains {
     private Type type;
 
     public enum Type {
-        LOCAL, EXPRESS
+        local, express
     }
 
     @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, orphanRemoval = true)

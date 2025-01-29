@@ -18,9 +18,8 @@ public class TrainController {
     }
 
     @GetMapping("/view")
-    public void viewTrains() {
-//        trainService.getAllTrains();
-        System.out.println("hhhhhhh");
+    public List<Trains> viewTrains() {
+        return trainService.getAllTrains();
     }
 
 }
