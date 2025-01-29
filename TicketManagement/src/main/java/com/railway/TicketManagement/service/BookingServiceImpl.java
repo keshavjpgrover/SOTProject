@@ -7,8 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.railway.TicketManagement.dto.BookingDTO;
 import com.railway.TicketManagement.entities.Booking;
 import com.railway.TicketManagement.entities.Ticket;
+import com.railway.TicketManagement.entities.Payment;
 import com.railway.TicketManagement.repository.BookingDAO;
+import com.railway.TicketManagement.repository.PaymentDAO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,6 +22,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private BookingDAO bookingDao;
+
+    @Autowired
+    private PaymentDAO paymentDao;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -38,6 +44,16 @@ public class BookingServiceImpl implements BookingService {
 
         // Save booking
         Booking savedBooking = bookingDao.save(bookingEntity);
+
+        Payment payment = Payment.builder()
+                .booking(savedBooking)              // Associate with saved booking
+                .date(new Date())                   // Set payment date to current date
+                .amount(bookingDTO.getTotalAmount()) // Use amount from BookingDTO
+                .paymentMethod(Payment.PaymentMethod.CARD) // Default Payment Method (can be dynamic)
+                .paymentStatus(Payment.PaymentStatus.SUCCESS) // Default Payment Status
+                .build();
+
+        paymentDao.save(payment);
 
         return modelMapper.map(savedBooking, BookingDTO.class);
     }
