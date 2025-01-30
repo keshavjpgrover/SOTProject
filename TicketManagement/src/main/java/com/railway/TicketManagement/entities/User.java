@@ -1,52 +1,33 @@
 package com.railway.TicketManagement.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
-import java.util.List;
-
+import lombok.*;
 
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @Column(name = "first_name")
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "email")
-    private String email;
+    @Column(name = "contact", nullable = false)
+    private String contactNumber;
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<Booking> bookings;
-
-    public enum Role {
-        admin, customer
-    }
-
-    // can create custom method to set password with hashing
 }
