@@ -3,6 +3,7 @@ package com.railway.TicketManagement.service;
 import com.railway.TicketManagement.dto.AddTrainDTO;
 import com.railway.TicketManagement.dto.TrainSearchDTO;
 import com.railway.TicketManagement.entities.Trains;
+import com.railway.TicketManagement.exception.ResourceNotFoundException;
 import com.railway.TicketManagement.repository.TrainRepository;
 
 import org.modelmapper.ModelMapper;
@@ -52,7 +53,7 @@ public class TrainServiceImpl implements TrainService {
             trainDao.delete(trainEntity.get());
         }
         else{
-            //throw new ResourceNotFoundException("Train not found");
+            throw new ResourceNotFoundException("Train not found");
         }
     } 
 }
