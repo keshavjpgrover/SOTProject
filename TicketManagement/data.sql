@@ -56,6 +56,7 @@ CREATE TABLE Booking (
     FOREIGN KEY (schedule_id) REFERENCES Schedule(schedule_id)
 );
 
+
 CREATE TABLE Ticket (
     ticket_id INT AUTO_INCREMENT PRIMARY KEY,
     booking_id INT,
@@ -63,6 +64,7 @@ CREATE TABLE Ticket (
     price DECIMAL(10, 2),
     start_station_id INT,
     end_station_id INT,
+    date DATE,
     FOREIGN KEY (booking_id) REFERENCES Booking(booking_id),
     FOREIGN KEY (start_station_id) REFERENCES Station(station_id),
     FOREIGN KEY (end_station_id) REFERENCES Station(station_id)
@@ -157,12 +159,12 @@ INSERT INTO Booking (user_id, train_number, schedule_id, date, status) VALUES
 
 Select * from booking;
 
-INSERT INTO Ticket (booking_id, seat_number, price, start_station_id, end_station_id) VALUES
-(1, 1, 50.00, 1, 5),
-(2, 2, 60.00, 6, 10),
-(3, 3, 40.00, 2, 4),
-(4, 4, 30.00, 3, 6),
-(5, 5, 70.00, 1, 10);
+INSERT INTO Ticket (booking_id, seat_number, price, start_station_id, end_station_id, date) VALUES
+(1, 1, 50.00, 1, 5, '2023-10-01' ),
+(2, 2, 60.00, 6, 10, '2023-10-02'),
+(3, 3, 40.00, 2, 4, '2023-10-03'),
+(4, 4, 30.00, 3, 6, '2023-10-04'),
+(5, 5, 70.00, 1, 10, '2023-10-05');
 
 
 INSERT INTO Routes (train_number, station_id, stop_order, distance_from_start) VALUES
@@ -188,3 +190,39 @@ INSERT INTO Payment (booking_id, date, amount, payment_method, payment_status) V
 (5, '2023-10-05', 70.00, 'Card', 'success');
 
 Select * from payment;
+
+use ticketingsystem;
+select * from schedule;
+
+select * from station;
+
+select * from routes;
+
+
+use ticketingsystem;
+
+select * from booking;
+select * from trains;
+
+select * from ticket;
+
+SELECT t.train_number,
+       t.train_name,
+       r2.distance_from_start - r1.distance_from_start AS total_distance,
+       (r2.stop_order - r1.stop_order) * 100 AS fare_price,
+       s1.departure_time AS departure_time_from_source,
+       s2.arrival_time AS arrival_time_at_destination
+FROM Trains t
+JOIN Routes r1 ON t.train_number = r1.train_number
+JOIN Routes r2 ON t.train_number = r2.train_number
+JOIN Schedule s1 ON t.train_number = s1.train_number AND r1.station_id = s1.station_id
+JOIN Schedule s2 ON t.train_number = s2.train_number AND r2.station_id = s2.station_id
+WHERE r1.station_id = (SELECT station_id FROM Station WHERE station_name = 'Delhi Gate')
+  AND r2.station_id = (SELECT station_id FROM Station WHERE station_name = 'Janpath')
+  AND r1.stop_order < r2.stop_order;
+  
+select * from routes;
+select * from trains;
+select * from station;
+
+-- need to check if available seats are changing after adding a booking--   

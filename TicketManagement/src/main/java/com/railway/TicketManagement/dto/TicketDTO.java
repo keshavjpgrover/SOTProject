@@ -14,4 +14,6 @@ public class TicketDTO {
     private Long startStationId;
     private Long endStationId;
     private Boolean ticketConfirmation;
+
+
 }
