@@ -44,7 +44,15 @@ public class TrainController {
 
 	@PutMapping("/remove/{trainNumber}")
 	public void removeTrain(@PathVariable String trainNumber) {
-		trainService.removeTrain(trainNumber);
+        try {
+            trainService.removeTrain(trainNumber);
+        }
+        catch (com.railway.TicketManagement.exception.ResourceNotFoundException e ){
+            System.out.println("--------------------------------");
+            System.out.println(e.getMessage());
+            System.out.println("--------------------------------");
+
+        }
 	}
 
 }
